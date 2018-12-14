@@ -13,9 +13,104 @@
 
 .bg-transparent
 {
-	background: #ffffff8a !important;
-	padding: 10px;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
+    background: #ffffff8a !important;
+    padding: 0px 0px 1px 0px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
     box-shadow: 0 0px 5px rgba(0, 0, 0, 0.5);
+    min-height: 100px;
+}
+
+.nav-bar
+{
+    color: #fff;
+    font-weight: bold;
+    font-size: 25px;
+    padding: 10px 10px 10px 20px;
+    text-shadow: 0 0px 5px rgba(0, 0, 0, 1);
+    box-shadow: 0 0px 5px rgba(0, 0, 0, 0.5);
+}
+
+.center img
+{
+	margin: 0px auto;
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 40;
+}
+
+.center
+{
+    position: relative;
+    min-height: 190px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.play:hover
+{
+	height: 120px;
+}
+
+.Word_Holder
+{
+	margin: 20px auto;
+    text-align: center;
+}
+
+.Word_Holder div
+{
+	background: #fff;
+    width: fit-content;
+    margin: 2px;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 20px;
+    font-weight: bold;
+    box-shadow: 0 0px 5px rgba(0, 0, 0, 0.5);
+}
+
+.space
+{
+	box-shadow: none !important;
+    background: none !important;
+}
+
+.keyboard-left div div, .keyboard-right div div, .keyboard-center div div
+{
+    background: #ff7c7a;
+    width: fit-content;
+    margin: 2px;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 20px;
+    font-weight: bold;
+    box-shadow: 0 0px 5px rgba(0, 0, 0, 0.5);
+    width: 50px;
+    text-align: center;
+    cursor: pointer;
+    color: #fff;
+}
+
+.keyboard-left, .keyboard-right
+{
+	margin: 20px;
+}
+
+.keyboard-center
+{
+	margin: 20px 30px;
+}
+
+.keyZero
+{
+	width: 158px !important;
+}
+
+.keySpace
+{
+	height: 50px;
+    width: -webkit-fill-available !important;
 }
