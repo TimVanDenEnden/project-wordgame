@@ -20,10 +20,13 @@
 						<img class="play" onclick="play()" src="../assets/images/play.png" alt="playImage">
 					</div>
 				</div>
+				<div id="WinScreen" style="display: none;">
+					<img class="win" src="../assets/images/win.png" alt="win">
+				</div>
 				<div id="WordScreen" style="display: none;">
 					<div class="center">
 						<div class="Word_Holder row justify-content-md-center"></div>
-
+						
 						<div class="row justify-content-md-center">
 							<div class="keyboard-left">
 								<div class="row">
@@ -40,6 +43,9 @@
 								</div>
 							</div>
 							<div class="keyboard-center">
+								<div class="row justify-content-md-center">
+									<div class="keyCheck" onclick="check()">check</div>
+								</div>
 								<div class="row justify-content-md-center">
 									<div onclick="add('q')">q</div>
 									<div onclick="add('w')">w</div>
@@ -79,6 +85,9 @@
 							</div>
 							<div class="keyboard-center">
 								<div class="row">
+									<div class="keyZero" onclick="backspace()"><--</div>
+								</div>
+								<div class="row">
 									<div onclick="add('7')">7</div>
 									<div onclick="add('8')">8</div>
 									<div onclick="add('9')">9</div>
@@ -104,6 +113,8 @@
 		</div>
 		
 		<script>
+
+			var word = "demo";
 			
 			function play()
 			{				
@@ -124,6 +135,59 @@
 				{
 					$( ".Word_Holder" ).append("<div>" + key + "</div>" );
 				}
+			}
+
+			function backspace()
+			{
+				$( ".Word_Holder div" ).last().remove();
+			}
+
+			function check()
+			{
+				var getTypedIn = "";
+				var splittedWord = word.split("");
+				var match = true;
+
+				$.each( $('.Word_Holder'), function(i, left) 
+				{
+					$('div', left).each(function() {
+
+						// get each letter.
+						getTypedIn = getTypedIn + $(this).html();
+
+				   	});
+				})
+
+				var splittedgetTypedIn = getTypedIn.split("");
+
+				if (splittedWord.length == splittedgetTypedIn.length)
+				{
+					for (i = 0; i < splittedgetTypedIn.length; i++) 
+					{
+					    if (splittedgetTypedIn[i] != splittedWord[i])
+					    {
+					    	match = false;	
+					    }
+					}
+				}
+				else
+				{
+					match = false;
+				}
+
+				if (match == false)
+				{
+					alert("No match!!");
+				}
+				else
+				{
+					$( "#WordScreen" ).fadeOut( "slow", function() 
+					{
+						// Animation complete.
+					  	$( "#WinScreen" ).fadeIn( "slow" );
+					});
+				}
+				
 			}
 
 		</script>
