@@ -42,7 +42,9 @@
 				</div>
 			</div>
 		</div>
-		<div class="row justify-content-md-center" id="totalWords" style="display: none"></div>
+		<div class="row justify-content-md-center" id="totalWords" style="display: none">
+			<div class='col wordDot' id='wordDot'></div>
+		</div>
 
 		<div class="container Keyboard" style="display: none;">
 			<div class="row">
@@ -113,7 +115,15 @@
 
 			for (var i = 0; i < words.length; i++) 
 			{
-				$( "#totalWords" ).append("<div class='col wordDot' id='wordDot" + i + "'></div>");
+				if (pos != i)
+				{
+					$( "#totalWords" ).append("<div class='col wordDot' id='wordDot" + i + "'><img id='wordDotImage" + i + "' src='../assets/images/startWrong.png' alt='startIcon' style='height: 40px; width: 40px;'></div>");
+				}
+				else
+				{
+					$( "#totalWords" ).append("<div class='col wordDot current' id='wordDot" + i + "'><img id='wordDotImage" + i + "' src='../assets/images/startWrong.png' alt='startIcon' style='height: 40px; width: 40px;'></div>");
+				}
+				
 			}
 			
 			function play()
@@ -209,15 +219,15 @@
 					}
 					else
 					{
-						$("#wordDot" + pos).css("background-color", "#f44336");
-
+						$( '#wordDot' + pos ).removeClass( "current" );
 						nextWord();
 					}
 
 				}
 				else
 				{
-					$("#wordDot" + pos).css("background-color", "#CDDC39");
+					$('#wordDotImage' + pos).attr('src','../assets/images/startRight.png');
+					$( '#wordDot' + pos ).removeClass( "current" );
 
 					nextWord();
 				}
@@ -233,6 +243,7 @@
 				{
 					// reset tryCount
 					tryCount = 0;
+					$( '#wordDot' + pos ).addClass( "current" );
 				}
 				else
 				{

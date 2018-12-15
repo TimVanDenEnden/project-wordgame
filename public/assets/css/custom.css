@@ -150,10 +150,15 @@
 
 .wordDot
 {
-	max-width: 30px;
-    min-height: 30px;
-    background: #ffffff8a;
+	max-width: 40px;
+    min-height: 40px;
     border-radius: 5px;
-    box-shadow: 0 0px 5px rgba(0, 0, 0, 0.5);
     margin: 5px;
+    padding: 0;
+}
+
+.current
+{
+	box-shadow: 0 0px 5px rgba(0, 0, 0, 0.5); 
+	background: #ffffff8a !important;
 }
