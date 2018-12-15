@@ -33,7 +33,16 @@
 					</div>
 				</div>
 				<div id="WinScreen" style="display: none;">
-					<img class="win" src="../assets/images/win.png" alt="win">
+					<div class="row justify-content-md-center" style="padding: 20px;">
+						<div>
+							<img class="cup" src="../assets/images/cup.png" style="height: 120px;" alt="cup">
+						</div>
+						<div class="total">
+							<div id="totalWords_Holder"></div>
+							<div id="goodWords_Holder"></div>
+							<div id="wrongWords_Holder"></div>
+						</div>
+					</div>
 				</div>
 				<div id="WordScreen" style="display: none;">
 					<div class="center">
@@ -49,7 +58,7 @@
 		<div class="container Keyboard" style="display: none;">
 			<div class="row">
 				<div class="col" style="max-width: -webkit-fill-available;" onclick="check()">check</div>
-				<div class="col" style="max-width: -webkit-fill-available;">replay</div>
+				<!-- <div class="col" style="max-width: -webkit-fill-available;">replay</div> -->
 			</div>
 			<div class="row justify-content-md-center">
 				<div class="col" onclick="add('ċ')">ċ</div>
@@ -109,9 +118,12 @@
 		</div>
 		
 		<script>
-			var words = ["demo", "tim", "boss"];
+			var words = [{word:"demo"}, {word:"test"}];
 			var pos = 0;
 			var tryCount = 0;
+
+			var goodWords = 0;
+			var wrongWords = 0;
 
 			for (var i = 0; i < words.length; i++) 
 			{
@@ -180,7 +192,8 @@
 			function check()
 			{
 				var getTypedIn = "";
-				var splittedWord = words[pos].split("");
+				var splittedWord = words[pos]['word'].split("");
+
 				var match = true;
 
 				$.each( $('.Word_Holder'), function(i, left) 
@@ -223,7 +236,11 @@
 					else
 					{
 						$( '#wordDot' + pos ).removeClass( "current" );
-						nextWord();
+						wrongWords++;
+
+						$( ".Keyboard" ).fadeOut( "slow", function() {
+							nextWord();
+						});
 					}
 
 				}
@@ -232,7 +249,10 @@
 					$('#wordDotImage' + pos).attr('src','../assets/images/starRight.png');
 					$( '#wordDot' + pos ).removeClass( "current" );
 
-					nextWord();
+					goodWords++;
+					$( ".Keyboard" ).fadeOut( "slow", function() {
+						nextWord();
+					});
 				}
 			}
 
@@ -253,6 +273,10 @@
 					$( ".Keyboard" ).fadeOut( "slow" );
 					$( "#WordScreen" ).fadeOut( "slow", function() 
 					{
+						$("#totalWords_Holder").html("Total words: " + words.length);
+						$("#goodWords_Holder").html("Good words: " + goodWords);
+						$("#wrongWords_Holder").html("Wrong words: " + wrongWords);
+
 						// Animation complete.
 					  	$( "#WinScreen" ).fadeIn( "slow" );
 					});

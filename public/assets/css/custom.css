@@ -162,3 +162,12 @@
 	box-shadow: 0 0px 5px rgba(0, 0, 0, 0.5); 
 	background: #ffffff8a !important;
 }
+
+.total
+{
+	color: #fff;
+    font-weight: bold;
+    font-size: 20px;
+    padding: 15px 10px 10px 10px;
+    text-shadow: 0 0px 5px rgba(0, 0, 0, 1);
+}
