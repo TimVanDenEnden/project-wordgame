@@ -52,11 +52,6 @@
     box-shadow: none !important;
 }
 
-.play:hover
-{
-	height: 120px;
-}
-
 .Word_Holder
 {
 	margin: 30px auto;
@@ -138,4 +133,27 @@
     text-shadow: 0 0px 5px rgba(0, 0, 0, 1);
     font-size: 30px;
     font-weight: bold;
+}
+
+.pointer
+{
+    height: 80px;
+    margin-top: -50px !important;
+    padding-left: 80px;
+    cursor: pointer;
+}
+
+.play 
+{
+	cursor: pointer;
+}
+
+.wordDot
+{
+	max-width: 30px;
+    min-height: 30px;
+    background: #ffffff8a;
+    border-radius: 5px;
+    box-shadow: 0 0px 5px rgba(0, 0, 0, 0.5);
+    margin: 5px;
 }

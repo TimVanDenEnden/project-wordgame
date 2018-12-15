@@ -6,6 +6,10 @@
 		<!-- Load bootstrap -->
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 		<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+		<script
+  src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"
+  integrity="sha256-0YPKAwZP7Mp3ALMRVB2i8GXeEndvCq3eSl/WsAl1Ryk="
+  crossorigin="anonymous"></script>
 		
 		<!-- Our css  -->
 		<link rel="stylesheet" href="../assets/css/custom.css">
@@ -22,6 +26,7 @@
 					<div class="center" style="min-height: 120px;">
 						<div class="startText">Click to start!</div>
 						<img class="play" onclick="play()" src="../assets/images/play.png" alt="playImage">
+						<img class="pointer" onclick="play()" src="../assets/images/pointer.png" alt="pointerImage">
 						<div id="number3" class="number" style="display: none">3</div>
 						<div id="number2" class="number" style="display: none">2</div>
 						<div id="number1" class="number" style="display: none">1</div>
@@ -37,6 +42,7 @@
 				</div>
 			</div>
 		</div>
+		<div class="row justify-content-md-center" id="totalWords" style="display: none"></div>
 
 		<div class="container Keyboard" style="display: none;">
 			<div class="row">
@@ -101,13 +107,19 @@
 		</div>
 		
 		<script>
+			var words = ["demo", "tim", "boss"];
+			var pos = 0;
+			var tryCount = 0;
 
-			var word = "demo";
+			for (var i = 0; i < words.length; i++) 
+			{
+				$( "#totalWords" ).append("<div class='col wordDot' id='wordDot" + i + "'></div>");
+			}
 			
 			function play()
 			{			
 				$( ".startText" ).fadeOut("slow");	
-
+				$( ".pointer" ).fadeOut("slow");
 				$( ".play" ).fadeOut( "slow", function() 
 				{
 				  	$( "#number3" ).fadeIn( "slow", function() 
@@ -126,6 +138,7 @@
 										    $( "#StartScreen" ).fadeOut( "slow" , function(){
 										    	$( "#WordScreen" ).fadeIn("slow");
 										    	$( ".Keyboard" ).fadeIn( "slow" );
+										    	$( "#totalWords" ).fadeIn( "slow" );
 										    });
 										    
 								  		});	
@@ -157,7 +170,7 @@
 			function check()
 			{
 				var getTypedIn = "";
-				var splittedWord = word.split("");
+				var splittedWord = words[pos].split("");
 				var match = true;
 
 				$.each( $('.Word_Holder'), function(i, left) 
@@ -189,8 +202,37 @@
 
 				if (match == false)
 				{
-					var audio = new Audio('../assets/audio/easteregg.mp3');
-					audio.play();
+					if (tryCount < 2)
+					{
+						$( ".Word_Holder" ).effect("shake");
+						tryCount++;
+					}
+					else
+					{
+						$("#wordDot" + pos).css("background-color", "#f44336");
+
+						nextWord();
+					}
+
+				}
+				else
+				{
+					$("#wordDot" + pos).css("background-color", "#CDDC39");
+
+					nextWord();
+				}
+			}
+
+			function nextWord()
+			{
+				// Go next word.
+				$(".Word_Holder").html("");
+				pos++;
+
+				if (words[pos] != null)
+				{
+					// reset tryCount
+					tryCount = 0;
 				}
 				else
 				{
@@ -201,7 +243,6 @@
 					  	$( "#WinScreen" ).fadeIn( "slow" );
 					});
 				}
-				
 			}
 
 		</script>
