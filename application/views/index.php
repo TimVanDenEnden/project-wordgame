@@ -117,11 +117,11 @@
 			{
 				if (pos != i)
 				{
-					$( "#totalWords" ).append("<div class='col wordDot' id='wordDot" + i + "'><img id='wordDotImage" + i + "' src='../assets/images/startWrong.png' alt='startIcon' style='height: 40px; width: 40px;'></div>");
+					$( "#totalWords" ).append("<div class='col wordDot' id='wordDot" + i + "'><img id='wordDotImage" + i + "' src='../assets/images/starWrong.png' alt='startIcon' style='height: 40px; width: 40px;'></div>");
 				}
 				else
 				{
-					$( "#totalWords" ).append("<div class='col wordDot current' id='wordDot" + i + "'><img id='wordDotImage" + i + "' src='../assets/images/startWrong.png' alt='startIcon' style='height: 40px; width: 40px;'></div>");
+					$( "#totalWords" ).append("<div class='col wordDot current' id='wordDot" + i + "'><img id='wordDotImage" + i + "' src='../assets/images/starWrong.png' alt='startIcon' style='height: 40px; width: 40px;'></div>");
 				}
 				
 			}
@@ -214,8 +214,11 @@
 				{
 					if (tryCount < 2)
 					{
-						$( ".Word_Holder" ).effect("shake");
-						tryCount++;
+						if ($( ".Word_Holder" ).html() != "")
+						{
+							$( ".Word_Holder" ).effect("shake");
+							tryCount++;
+						}
 					}
 					else
 					{
@@ -226,7 +229,7 @@
 				}
 				else
 				{
-					$('#wordDotImage' + pos).attr('src','../assets/images/startRight.png');
+					$('#wordDotImage' + pos).attr('src','../assets/images/starRight.png');
 					$( '#wordDot' + pos ).removeClass( "current" );
 
 					nextWord();
