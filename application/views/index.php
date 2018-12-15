@@ -8,6 +8,8 @@
 	
 		<!-- Our css  -->
 		<link rel="stylesheet" href="../assets/css/custom.css">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	</head>
 	<body>
 		<div class="bg"></div>
@@ -26,89 +28,70 @@
 				<div id="WordScreen" style="display: none;">
 					<div class="center">
 						<div class="Word_Holder row justify-content-md-center"></div>
-						
-						<div class="row justify-content-md-center">
-							<div class="keyboard-left">
-								<div class="row">
-									<div onclick="add('ċ')">ċ</div>
-								</div>
-								<div class="row">
-									<div onclick="add('ġ')">ġ</div>
-								</div>
-								<div class="row">
-									<div onclick="add('ż')">ż</div>
-								</div>
-								<div class="row">
-									<div onclick="add('ħ')">ħ</div>
-								</div>
-							</div>
-							<div class="keyboard-center">
-								<div class="row justify-content-md-center">
-									<div class="keyCheck" onclick="check()">check</div>
-								</div>
-								<div class="row justify-content-md-center">
-									<div onclick="add('q')">q</div>
-									<div onclick="add('w')">w</div>
-									<div onclick="add('e')">e</div>
-									<div onclick="add('r')">r</div>								
-									<div onclick="add('t')">t</div>								
-									<div onclick="add('y')">y</div>								
-									<div onclick="add('u')">u</div>
-									<div onclick="add('i')">i</div>
-									<div onclick="add('o')">o</div>
-									<div onclick="add('p')">p</div>
-								</div>
-								<div class="row justify-content-md-center">
-									<div onclick="add('a')">a</div>
-									<div onclick="add('s')">s</div>
-									<div onclick="add('d')">d</div>
-									<div onclick="add('f')">f</div>								
-									<div onclick="add('g')">g</div>								
-									<div onclick="add('h')">h</div>								
-									<div onclick="add('j')">j</div>
-									<div onclick="add('k')">k</div>
-									<div onclick="add('l')">l</div>
-								</div>
-								<div class="row justify-content-md-center">
-									<div onclick="add('z')">z</div>
-									<div onclick="add('x')">x</div>
-									<div onclick="add('c')">c</div>
-									<div onclick="add('v')">v</div>								
-									<div onclick="add('b')">b</div>								
-									<div onclick="add('n')">n</div>								
-									<div onclick="add('m')">m</div>
-									<div onclick="add('\'')">'</div>
-								</div>
-								<div class="row justify-content-md-center">
-									<div class="keySpace" onclick="add('space')"></div>
-								</div>
-							</div>
-							<div class="keyboard-center">
-								<div class="row">
-									<div class="keyZero" onclick="backspace()"><--</div>
-								</div>
-								<div class="row">
-									<div onclick="add('7')">7</div>
-									<div onclick="add('8')">8</div>
-									<div onclick="add('9')">9</div>
-								</div>
-								<div class="row">
-									<div onclick="add('4')">4</div>
-									<div onclick="add('5')">5</div>
-									<div onclick="add('6')">6</div>
-								</div>
-								<div class="row">
-									<div onclick="add('1')">1</div>
-									<div onclick="add('2')">2</div>
-									<div onclick="add('3')">3</div>
-								</div>
-								<div class="row">
-									<div class="keyZero" onclick="add('0')">0</div>
-								</div>
-							</div>
-						</div>
 					</div>
 				</div>
+			</div>
+		</div>
+
+		<div class="container Keyboard" style="display: none;">
+			<div class="row">
+				<div class="col" style="max-width: -webkit-fill-available;">check</div>
+				<div class="col" style="max-width: -webkit-fill-available;">replay</div>
+			</div>
+			<div class="row justify-content-md-center">
+				<div class="col" onclick="add('ċ')">ċ</div>
+				<div class="col" onclick="add('1')">1</div>
+				<div class="col" onclick="add('2')">2</div>
+				<div class="col" onclick="add('3')">3</div>
+				<div class="col" onclick="add('4')">4</div>
+				<div class="col" onclick="add('5')">5</div>
+				<div class="col" onclick="add('6')">6</div>
+				<div class="col" onclick="add('7')">7</div>
+				<div class="col" onclick="add('8')">8</div>
+				<div class="col" onclick="add('9')">9</div>
+				<div class="col" onclick="add('0')">0</div>
+				<div class="col"onclick="backspace()"><-</div>
+			</div>
+			<div class="row justify-content-md-center">
+				<div class="col" onclick="add('q')">q</div>
+				<div class="col" onclick="add('w')">w</div>
+				<div class="col" onclick="add('e')">e</div>
+				<div class="col" onclick="add('r')">r</div>
+				<div class="col" onclick="add('t')">t</div>
+				<div class="col" onclick="add('y')">y</div>
+				<div class="col" onclick="add('u')">u</div>
+				<div class="col" onclick="add('i')">i</div>
+				<div class="col" onclick="add('o')">o</div>
+				<div class="col" onclick="add('p')">p</div>
+				<div class="col" onclick="add('ġ')">ġ</div>
+				<div class="col" onclick="add('ħ')">ħ</div>
+			</div>
+			<div class="row justify-content-md-center">
+				<div class="col" onclick="add('a')">a</div>
+				<div class="col" onclick="add('s')">s</div>
+				<div class="col" onclick="add('d')">d</div>
+				<div class="col" onclick="add('f')">f</div>
+				<div class="col" onclick="add('g')">g</div>
+				<div class="col" onclick="add('h')">h</div>
+				<div class="col" onclick="add('j')">j</div>
+				<div class="col" onclick="add('k')">k</div>
+				<div class="col" onclick="add('l')">l</div>
+				<div class="col" style="max-width: 166.656px;" onclick="add('\'')">'</div>
+			</div>
+			<div class="row justify-content-md-center">
+				<div class="col" style="max-width: 166.656px;">^</div>
+				<div class="col" onclick="add('ż')">ż</div>
+				<div class="col" onclick="add('z')">z</div>
+				<div class="col" onclick="add('x')">x</div>
+				<div class="col" onclick="add('c')">c</div>
+				<div class="col" onclick="add('v')">v</div>
+				<div class="col" onclick="add('b')">b</div>
+				<div class="col" onclick="add('n')">n</div>
+				<div class="col" onclick="add('m')">m</div>
+				<div class="col" style="max-width: 166.656px;">^</div>
+			</div>
+			<div class="row justify-content-md-center">
+				<div class="col" style="max-width: 583.296px; height: 40px;" onclick="add('space')"></div>
 			</div>
 		</div>
 		
@@ -122,6 +105,7 @@
 				  {
 				    // Animation complete.
 				    $( "#WordScreen" ).fadeIn( "slow" );
+				    $( ".Keyboard" ).fadeIn( "slow" );
 				  });
 			}
 
@@ -181,6 +165,7 @@
 				}
 				else
 				{
+					$( ".Keyboard" ).fadeOut( "slow" );
 					$( "#WordScreen" ).fadeOut( "slow", function() 
 					{
 						// Animation complete.
