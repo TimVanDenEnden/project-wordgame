@@ -5,7 +5,8 @@
 
 		<!-- Load bootstrap -->
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-	
+		<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+		
 		<!-- Our css  -->
 		<link rel="stylesheet" href="../assets/css/custom.css">
 
@@ -18,8 +19,12 @@
 			<div class="bg-transparent">
 				<div class="nav-bar">WordGame</div>
 				<div id="StartScreen">
-					<div class="center">
+					<div class="center" style="min-height: 120px;">
+						<div class="startText">Click to start!</div>
 						<img class="play" onclick="play()" src="../assets/images/play.png" alt="playImage">
+						<div id="number3" class="number" style="display: none">3</div>
+						<div id="number2" class="number" style="display: none">2</div>
+						<div id="number1" class="number" style="display: none">1</div>
 					</div>
 				</div>
 				<div id="WinScreen" style="display: none;">
@@ -35,7 +40,7 @@
 
 		<div class="container Keyboard" style="display: none;">
 			<div class="row">
-				<div class="col" style="max-width: -webkit-fill-available;">check</div>
+				<div class="col" style="max-width: -webkit-fill-available;" onclick="check()">check</div>
 				<div class="col" style="max-width: -webkit-fill-available;">replay</div>
 			</div>
 			<div class="row justify-content-md-center">
@@ -100,12 +105,35 @@
 			var word = "demo";
 			
 			function play()
-			{				
-				  $( "#StartScreen" ).fadeOut( "slow", function() 
-				  {
-				    // Animation complete.
-				    $( "#WordScreen" ).fadeIn( "slow" );
-				    $( ".Keyboard" ).fadeIn( "slow" );
+			{			
+				$( ".startText" ).fadeOut("slow");	
+
+				$( ".play" ).fadeOut( "slow", function() 
+				{
+				  	$( "#number3" ).fadeIn( "slow", function() 
+				  	{
+				  		$( "#number3" ).fadeOut( "slow", function() 
+				  		{
+				  			$( "#number2" ).fadeIn( "slow", function() 
+						  	{
+						  		$( "#number2" ).fadeOut( "slow", function() 
+						  		{
+						  			$( "#number1" ).fadeIn( "slow", function() 
+								  	{
+								  		$( "#number1" ).fadeOut( "slow", function() 
+								  		{
+										    // Animation complete.
+										    $( "#StartScreen" ).fadeOut( "slow" , function(){
+										    	$( "#WordScreen" ).fadeIn("slow");
+										    	$( ".Keyboard" ).fadeIn( "slow" );
+										    });
+										    
+								  		});	
+						  			});
+						  		});	
+				  			});
+				  		});	
+				  	});	
 				  });
 			}
 
@@ -161,7 +189,8 @@
 
 				if (match == false)
 				{
-					alert("No match!!");
+					var audio = new Audio('../assets/audio/easteregg.mp3');
+					audio.play();
 				}
 				else
 				{
@@ -177,11 +206,7 @@
 
 		</script>
 
-
-
-
 		<!-- Script bootstrap -->
-		<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 	</body>

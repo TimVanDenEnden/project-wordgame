@@ -59,7 +59,7 @@
 
 .Word_Holder
 {
-	margin: 20px auto;
+	margin: 30px auto;
     text-align: center;
 }
 
@@ -93,6 +93,12 @@
     box-shadow: 0 0px 5px rgba(0, 0, 0, 0.5);
     max-width: 83.328px;
     font-weight: bold;
+     -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; 
 }
 
 .Keyboard div
@@ -114,4 +120,22 @@
     box-shadow: 0 0px 5px rgba(0, 0, 0, 0.5);
     right: 0;
     text-align: center;
+}
+
+.number
+{
+	text-align: center;
+    font-size: 80px;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 0 0px 5px rgba(0, 0, 0, 1);
+}
+
+.startText
+{
+	text-align: center;
+    color: #fff;
+    text-shadow: 0 0px 5px rgba(0, 0, 0, 1);
+    font-size: 30px;
+    font-weight: bold;
 }
