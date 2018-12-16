@@ -142,8 +142,6 @@
 			    dataType: "JSON",
 			    success: function( dataFromApi ) 
 			    {
-			    	console.log(dataFromApi);
-
 			    	if (dataFromApi['status'] == 'OK')
 			    	{
 			    		words = dataFromApi['wordlistData']['listWords'];
