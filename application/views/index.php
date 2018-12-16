@@ -6,10 +6,7 @@
 		<!-- Load bootstrap -->
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 		<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
-		<script
-  src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"
-  integrity="sha256-0YPKAwZP7Mp3ALMRVB2i8GXeEndvCq3eSl/WsAl1Ryk="
-  crossorigin="anonymous"></script>
+		<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js" integrity="sha256-0YPKAwZP7Mp3ALMRVB2i8GXeEndvCq3eSl/WsAl1Ryk=" crossorigin="anonymous"></script>
 		
 		<!-- Our css  -->
 		<link rel="stylesheet" href="../assets/css/custom.css">
@@ -46,7 +43,8 @@
 				</div>
 				<div id="WordScreen" style="display: none;">
 					<div class="center">
-						<div class="Word_Holder row justify-content-md-center"></div>
+						<img src="./assets/images/sound.png" alt="sound" class="soundImg">
+						<div class="Word_Holder row justify-content-md-center" style="display: none;"></div>
 					</div>
 				</div>
 			</div>
@@ -135,7 +133,14 @@
 		    }
 
 
-			var words = [{word:"demo"}, {word:"test"}];
+			var words = [{
+				word:"demo",
+				sound:"../assets/audio/easteregg.mp3"
+			}, 
+			{
+				word:"test",
+				sound:"../assets/audio/easteregg.mp3"
+			}];
 			var pos = 0;
 			var tryCount = 0;
 
@@ -176,8 +181,19 @@
 										    // Animation complete.
 										    $( "#StartScreen" ).fadeOut( "slow" , function(){
 										    	$( "#WordScreen" ).fadeIn("slow");
-										    	$( ".Keyboard" ).fadeIn( "slow" );
 										    	$( "#totalWords" ).fadeIn( "slow" );
+
+										    	    var audioElement = document.createElement('audio');
+												    audioElement.setAttribute('src', words[pos]['sound']);
+
+												    audioElement.play();
+												    
+												    audioElement.addEventListener('ended', function() {
+												        $('.soundImg').css("display", "none");  
+												        $( ".Keyboard" ).fadeIn( "slow" );
+												        $( ".Word_Holder" ).fadeIn( "slow" );
+												    }, false);
+
 										    });
 										    
 								  		});	
@@ -281,6 +297,25 @@
 
 				if (words[pos] != null)
 				{
+					$( ".Keyboard" ).fadeOut( "slow", function()
+					{
+						$('.Word_Holder').css("display", "none");  
+						
+						$(".soundImg").fadeIn( "slow", function()
+						{
+							var audioElement = document.createElement('audio');
+							audioElement.setAttribute('src', words[pos]['sound']);
+
+							audioElement.play();
+												    
+							audioElement.addEventListener('ended', function() {
+							    $('.soundImg').css("display", "none");  
+							    $( ".Keyboard" ).fadeIn( "slow" );
+							    $( ".Word_Holder" ).fadeIn( "slow" );
+							}, false);
+						});
+					});
+
 					// reset tryCount
 					tryCount = 0;
 					$( '#wordDot' + pos ).addClass( "current" );

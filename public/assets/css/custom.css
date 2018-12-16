@@ -153,7 +153,7 @@
 	max-width: 40px;
     min-height: 40px;
     border-radius: 5px;
-    margin: 5px;
+	margin: 10px 5px;
     padding: 0;
 }
 
@@ -170,4 +170,9 @@
     font-size: 20px;
     padding: 15px 10px 10px 10px;
     text-shadow: 0 0px 5px rgba(0, 0, 0, 1);
+}
+
+.soundImg
+{
+	margin: 20px auto !important;
 }
