@@ -49,6 +49,9 @@
 				</div>
 			</div>
 		</div>
+		<div class="row" id="alertHolder" style="justify-content: center !important;">
+			<div class='col alert'> For this game you need to have sound! </div>
+		</div>
 		<div class="row justify-content-md-center" id="totalWords" style="display: none">
 			<div class='col wordDot' id='wordDot'></div>
 		</div>
@@ -116,10 +119,11 @@
 		</div>
 		
 		<script>
-			
+
+			var words = [];
+
 			$('.bg').css("background-image", "url(../assets/images/bg/bg" + randomIntFromInterval(1, 5) + ".png)");  
 			
-
 		    function randomIntFromInterval(min,max)
 		    {
 		        let result =  Math.floor(Math.random()*(max-min+1)+min);
@@ -132,38 +136,46 @@
 		        return result;
 		    }
 
+			$.ajax({
+			    url: "/api/load",
+			    type:'GET',
+			    dataType: "JSON",
+			    success: function( dataFromApi ) 
+			    {
+			    	console.log(dataFromApi);
 
-			var words = [{
-				word:"demo",
-				sound:"../assets/audio/easteregg.mp3"
-			}, 
-			{
-				word:"test",
-				sound:"../assets/audio/easteregg.mp3"
-			}];
+			    	if (dataFromApi['status'] == 'OK')
+			    	{
+			    		words = dataFromApi['wordlistData']['listWords'];
+
+			    		for (var i = 0; i < words.length; i++) 
+						{
+							if (pos != i)
+							{
+								$( "#totalWords" ).append("<div class='col wordDot' id='wordDot" + i + "'><img id='wordDotImage" + i + "' src='../assets/images/starWrong.png' alt='startIcon' style='height: 40px; width: 40px;'></div>");
+							}
+							else
+							{
+								$( "#totalWords" ).append("<div class='col wordDot current' id='wordDot" + i + "'><img id='wordDotImage" + i + "' src='../assets/images/starWrong.png' alt='startIcon' style='height: 40px; width: 40px;'></div>");
+							}
+							
+						}
+			    	}
+			    }
+
+			});
+
 			var pos = 0;
 			var tryCount = 0;
 
 			var goodWords = 0;
 			var wrongWords = 0;
-
-			for (var i = 0; i < words.length; i++) 
-			{
-				if (pos != i)
-				{
-					$( "#totalWords" ).append("<div class='col wordDot' id='wordDot" + i + "'><img id='wordDotImage" + i + "' src='../assets/images/starWrong.png' alt='startIcon' style='height: 40px; width: 40px;'></div>");
-				}
-				else
-				{
-					$( "#totalWords" ).append("<div class='col wordDot current' id='wordDot" + i + "'><img id='wordDotImage" + i + "' src='../assets/images/starWrong.png' alt='startIcon' style='height: 40px; width: 40px;'></div>");
-				}
-				
-			}
 			
 			function play()
 			{			
 				$( ".startText" ).fadeOut("slow");	
 				$( ".pointer" ).fadeOut("slow");
+				$( "#alertHolder" ).fadeOut("slow");
 				$( ".play" ).fadeOut( "slow", function() 
 				{
 				  	$( "#number3" ).fadeIn( "slow", function() 
@@ -184,7 +196,7 @@
 										    	$( "#totalWords" ).fadeIn( "slow" );
 
 										    	    var audioElement = document.createElement('audio');
-												    audioElement.setAttribute('src', words[pos]['sound']);
+												    audioElement.setAttribute('src', 'https://spelladmin.easypeasycoding.com/upload/' + words[pos]['id'] + '/' + words[pos]['audio']);
 
 												    audioElement.play();
 												    
@@ -202,7 +214,7 @@
 				  			});
 				  		});	
 				  	});	
-				  });
+				});
 			}
 
 			function add(key)
@@ -300,11 +312,11 @@
 					$( ".Keyboard" ).fadeOut( "slow", function()
 					{
 						$('.Word_Holder').css("display", "none");  
-						
+
 						$(".soundImg").fadeIn( "slow", function()
 						{
 							var audioElement = document.createElement('audio');
-							audioElement.setAttribute('src', words[pos]['sound']);
+							audioElement.setAttribute('src', 'https://spelladmin.easypeasycoding.com/upload/' + words[pos]['id'] + '/' + words[pos]['audio']);
 
 							audioElement.play();
 												    
