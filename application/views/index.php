@@ -8,6 +8,10 @@
 		<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
 		<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js" integrity="sha256-0YPKAwZP7Mp3ALMRVB2i8GXeEndvCq3eSl/WsAl1Ryk=" crossorigin="anonymous"></script>
 		
+		<!-- Select2 -->
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+
 		<!-- Our css  -->
 		<link rel="stylesheet" href="../assets/css/custom.css">
 
@@ -21,6 +25,9 @@
 				<div class="nav-bar">WordGame</div>
 				<div id="StartScreen">
 					<div class="center" style="min-height: 120px;">
+						<div id="selectBox">
+							<select class="select-list" name="state" style="max-width: 600px; display: block; margin: 20px auto;"></select>
+						</div>
 						<div class="startText">Click to start!</div>
 						<img class="play" onclick="play()" src="../assets/images/play.png" alt="playImage">
 						<img class="pointer" onclick="play()" src="../assets/images/pointer.png" alt="pointerImage">
@@ -120,7 +127,15 @@
 		
 		<script>
 
+			$(document).ready(function() {
+			    $('.select-list').select2({
+			    	minimumResultsForSearch: -1
+			    });
+			});
+
 			var words = [];
+			var wordlists = [];
+			var listPos = 0;
 
 			$.ajax({
 			    url: "/api/load",
@@ -128,26 +143,50 @@
 			    dataType: "JSON",
 			    success: function( dataFromApi ) 
 			    {
+			    	console.log(dataFromApi);
+
 			    	if (dataFromApi['status'] == 'OK')
 			    	{
 			    		words = dataFromApi['wordlistData']['listWords'];
 
-			    		for (var i = 0; i < words.length; i++) 
-						{
-							if (pos != i)
-							{
-								$( "#totalWords" ).append("<div class='col wordDot' id='wordDot" + i + "'><img id='wordDotImage" + i + "' src='../assets/images/starWrong.png' alt='startIcon' style='height: 40px; width: 40px;'></div>");
-							}
-							else
-							{
-								$( "#totalWords" ).append("<div class='col wordDot current' id='wordDot" + i + "'><img id='wordDotImage" + i + "' src='../assets/images/starWrong.png' alt='startIcon' style='height: 40px; width: 40px;'></div>");
-							}
-							
-						}
+			    		wordlists = dataFromApi['wordlistData'];
+
+			    		for (var i = 0; i < wordlists.length; i++)
+			    		{
+			    			console.log(wordlists[i]);
+
+			    			$( ".select-list" ).append("<option value='" + i + "'>" + wordlists[i]['name'] + "</option>");
+			    		}
+
+			    		words = wordlists[0]['words'];
+			    		createTotal();
 			    	}
 			    }
 
 			});
+
+			$('.select-list').on('change', function() 
+			{
+				listPos = this.value;
+				words = wordlists[listPos]['words'];
+				createTotal();
+			});
+
+			function createTotal()
+			{
+				$( "#totalWords" ).html("");
+			    for (var i = 0; i < words.length; i++) 
+				{
+					if (pos != i)
+					{
+						$( "#totalWords" ).append("<div class='col wordDot' id='wordDot" + i + "'><img id='wordDotImage" + i + "' src='../assets/images/starWrong.png' alt='startIcon' style='height: 40px; width: 40px;'></div>");
+					}
+					else
+					{
+						$( "#totalWords" ).append("<div class='col wordDot current' id='wordDot" + i + "'><img id='wordDotImage" + i + "' src='../assets/images/starWrong.png' alt='startIcon' style='height: 40px; width: 40px;'></div>");
+					}	
+				}
+			}
 
 			var pos = 0;
 			var tryCount = 0;
@@ -156,8 +195,9 @@
 			var wrongWords = 0;
 			
 			function play()
-			{			
+			{		
 				$( ".startText" ).fadeOut("slow");	
+				$( "#selectBox" ).fadeOut("slow");	
 				$( ".pointer" ).fadeOut("slow");
 				$( "#alertHolder" ).fadeOut("slow");
 				$( ".play" ).fadeOut( "slow", function() 

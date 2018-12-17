@@ -5,21 +5,28 @@ class Api extends CI_Controller {
 
 	public function load()
 	{
-                // create curl resource 
-                $ch = curl_init(); 
 
-                // set url 
-                curl_setopt($ch, CURLOPT_URL, "https://spelladmin.easypeasycoding.com/api/wordlists"); 
+        session_start();
+        
+        $url = "https://spelladmin.easypeasycoding.com/api/getLists";
 
-                //return the transfer as a string 
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
+        $data = array(
+                'studentId' => $_SESSION['userdata']->studentId,
+        );
 
-                // $output contains the output string 
-                $output = curl_exec($ch); 
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POST, true);
 
-                echo $output;
-
-                // close curl resource to free up system resources 
-                curl_close($ch); 
-	}
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        $output = curl_exec($ch);
+        $info = curl_getinfo($ch);
+        curl_close($ch);
+        
+        echo $output;
+	
+        }
 }

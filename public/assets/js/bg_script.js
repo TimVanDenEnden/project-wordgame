@@ -1,4 +1,4 @@
-$('.bg').css("background-image", "url(../assets/images/bg/bg" + randomIntFromInterval(1, 5) + ".png)");  
+$('.bg').css("background-image", "url(../assets/images/bg/bg" + randomIntFromInterval(1, 10) + ".png)");  
 			
 function randomIntFromInterval(min,max)
 {
