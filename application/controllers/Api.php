@@ -5,21 +5,21 @@ class Api extends CI_Controller {
 
 	public function load()
 	{
-        // create curl resource 
-        $ch = curl_init(); 
+                // create curl resource 
+                $ch = curl_init(); 
 
-        // set url 
-        curl_setopt($ch, CURLOPT_URL, "https://spelladmin.easypeasycoding.com/api/wordlists"); 
+                // set url 
+                curl_setopt($ch, CURLOPT_URL, "https://spelladmin.easypeasycoding.com/api/wordlists"); 
 
-        //return the transfer as a string 
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
+                //return the transfer as a string 
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
 
-        // $output contains the output string 
-        $output = curl_exec($ch); 
+                // $output contains the output string 
+                $output = curl_exec($ch); 
 
-        echo $output;
+                echo $output;
 
-        // close curl resource to free up system resources 
-        curl_close($ch); 
+                // close curl resource to free up system resources 
+                curl_close($ch); 
 	}
 }
