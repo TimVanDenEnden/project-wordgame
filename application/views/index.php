@@ -1,7 +1,7 @@
 <html>
 	<head>
 		<!-- Set title from browser -->
-		<title>POC - WordGame </title>
+		<title>POC - WordGame</title>
 
 		<!-- Load bootstrap -->
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
@@ -15,7 +15,8 @@
 		<!-- Our css  -->
 		<link rel="stylesheet" href="../assets/css/custom.css">
 
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<!-- <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> -->
+		<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
 	</head>
 	<body>
 		<div class="bg"></div>
@@ -59,7 +60,7 @@
 		<div class="row" id="alertHolder" style="justify-content: center !important;">
 			<div class='col alert'> For this game you need to have sound! </div>
 		</div>
-		<div class="row justify-content-md-center" id="totalWords" style="display: none">
+		<div class="row justify-content-md-center" id="totalWords" style="display: none; justify-content: center!important;">
 			<div class='col wordDot' id='wordDot'></div>
 		</div>
 
