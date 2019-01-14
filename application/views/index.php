@@ -16,14 +16,16 @@
 		<link rel="stylesheet" href="../assets/css/custom.css">
 
 		<!-- <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> -->
-		<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+		<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
 	</head>
 	<body>
 		<div class="bg"></div>
 
 		<div class="container-fluid" style="position: relative;">
 			<div class="bg-transparent">
-				<div class="nav-bar">WordGame</div>
+				<div class="nav-bar">WordGame
+					<p style="position: absolute; right: 30px; top: 8px;"><?php echo $userdata->studentFirstname . " " . $userdata->studentLastname;  ?></p>
+				</div>
 				<div id="StartScreen">
 					<div class="center" style="min-height: 120px;">
 						<div id="selectBox">
@@ -46,6 +48,12 @@
 							<div id="totalWords_Holder"></div>
 							<div id="goodWords_Holder"></div>
 							<div id="wrongWords_Holder"></div>
+						</div>
+					</div>
+					<div class="Stats" style="display: none;"></div>
+					<div class="row" style="justify-content: center!important;">
+						<div class="moreDetails" onclick="loadStats()">
+							<p style="margin-bottom: 0px;">Click here to show more details.</p>
 						</div>
 					</div>
 				</div>
@@ -127,25 +135,29 @@
 		</div>
 		
 		<script>
-
+			
+			// create list.
 			$(document).ready(function() {
 			    $('.select-list').select2({
 			    	minimumResultsForSearch: -1
 			    });
 			});
 
+			// Set some vars.
 			var words = [];
 			var wordlists = [];
 			var listPos = 0;
 
+			var keyboardEnabled = false;
+
+			// Load data for lists.
 			$.ajax({
 			    url: "/api/load",
 			    type:'GET',
 			    dataType: "JSON",
 			    success: function( dataFromApi ) 
 			    {
-			    	console.log(dataFromApi);
-
+			    	// console.log(dataFromApi); 
 			    	if (dataFromApi['status'] == 'OK')
 			    	{
 			    		words = dataFromApi['wordlistData']['listWords'];
@@ -154,24 +166,44 @@
 
 			    		for (var i = 0; i < wordlists.length; i++)
 			    		{
-			    			console.log(wordlists[i]);
+			    			// console.log(wordlists[i]);
 
 			    			$( ".select-list" ).append("<option value='" + i + "'>" + wordlists[i]['name'] + "</option>");
 			    		}
 
 			    		words = wordlists[0]['words'];
+
+			    		// get total words.
 			    		createTotal();
+
+			    		// create stats for the list.
+						createStats();
 			    	}
 			    }
 
 			});
 
+			// Set words after list is selected.
 			$('.select-list').on('change', function() 
 			{
 				listPos = this.value;
 				words = wordlists[listPos]['words'];
+
+				// get total words.
 				createTotal();
+
+				// create stats for the list.
+				createStats();
 			});
+
+			function createStats()
+			{
+				for (var i = 0; i < words.length; i++) 
+				{
+					words[i]['tryCount'] = 0;
+					words[i]['status'] = 'none';
+				}
+			}
 
 			function createTotal()
 			{
@@ -190,56 +222,17 @@
 			}
 
 			var pos = 0;
-			var tryCount = 0;
+			var tryCount = 1;
 
 			var goodWords = 0;
 			var wrongWords = 0;
+
+			var sessionId = 0;
 			
 			function play()
-			{		
-				$( ".startText" ).fadeOut("slow");	
-				$( "#selectBox" ).fadeOut("slow");	
-				$( ".pointer" ).fadeOut("slow");
-				$( "#alertHolder" ).fadeOut("slow");
-				$( ".play" ).fadeOut( "slow", function() 
-				{
-				  	$( "#number3" ).fadeIn( "slow", function() 
-				  	{
-				  		$( "#number3" ).fadeOut( "slow", function() 
-				  		{
-				  			$( "#number2" ).fadeIn( "slow", function() 
-						  	{
-						  		$( "#number2" ).fadeOut( "slow", function() 
-						  		{
-						  			$( "#number1" ).fadeIn( "slow", function() 
-								  	{
-								  		$( "#number1" ).fadeOut( "slow", function() 
-								  		{
-										    // Animation complete.
-										    $( "#StartScreen" ).fadeOut( "slow" , function(){
-										    	$( "#WordScreen" ).fadeIn("slow");
-										    	$( "#totalWords" ).fadeIn( "slow" );
-
-										    	    var audioElement = document.createElement('audio');
-												    audioElement.setAttribute('src', 'https://spelladmin.easypeasycoding.com/upload/' + words[pos]['id'] + '/' + words[pos]['audio']);
-
-												    audioElement.play();
-												    
-												    audioElement.addEventListener('ended', function() {
-												        $('.soundImg').css("display", "none");  
-												        $( ".Keyboard" ).fadeIn( "slow" );
-												        $( ".Word_Holder" ).fadeIn( "slow" );
-												    }, false);
-
-										    });
-										    
-								  		});	
-						  			});
-						  		});	
-				  			});
-				  		});	
-				  	});	
-				});
+			{	
+				// Create session
+				startSession();
 			}
 
 			function add(key)
@@ -261,9 +254,10 @@
 
 			function check()
 			{
+				keyboardEnabled = false;
+
 				var getTypedIn = "";
 				var splittedWord = words[pos]['word'].split("");
-
 				var match = true;
 
 				$.each( $('.Word_Holder'), function(i, left) 
@@ -295,12 +289,14 @@
 
 				if (match == false)
 				{
-					if (tryCount < 2)
+					if (tryCount < 3)
 					{
 						if ($( ".Word_Holder" ).html() != "")
 						{
 							$( ".Word_Holder" ).effect("shake");
 							tryCount++;
+
+							keyboardEnabled = true;
 						}
 					}
 					else
@@ -309,6 +305,9 @@
 						wrongWords++;
 
 						$( ".Keyboard" ).fadeOut( "slow", function() {
+
+							words[pos]['tryCount'] = tryCount;
+							words[pos]['status'] = 'wrong';
 							nextWord();
 						});
 					}
@@ -321,6 +320,10 @@
 
 					goodWords++;
 					$( ".Keyboard" ).fadeOut( "slow", function() {
+
+						words[pos]['tryCount'] = tryCount;
+						words[pos]['status'] = 'good';
+
 						nextWord();
 					});
 				}
@@ -349,16 +352,20 @@
 							    $('.soundImg').css("display", "none");  
 							    $( ".Keyboard" ).fadeIn( "slow" );
 							    $( ".Word_Holder" ).fadeIn( "slow" );
+
+							    keyboardEnabled = true;
+
 							}, false);
 						});
 					});
 
 					// reset tryCount
-					tryCount = 0;
+					tryCount = 1;
 					$( '#wordDot' + pos ).addClass( "current" );
 				}
 				else
 				{
+
 					$( ".Keyboard" ).fadeOut( "slow" );
 					$( "#WordScreen" ).fadeOut( "slow", function() 
 					{
@@ -372,12 +379,117 @@
 				}
 			}
 
+			function loadStats()
+			{
+				$('.moreDetails').fadeOut("slow");
+
+				for (var i = 0; i < words.length; i++) 
+				{
+					$( ".Stats" ).append("<div class='word_stat'> <div>Word: " + words[i]['word'] + "</div> <div>Status: " + words[i]['status'] + "</div> <div>Try's: " + words[i]['tryCount'] + "</div> </div>" );
+				}
+ 
+				$('.Stats').fadeIn("slow");
+			}
+
+			function gotSession(sessionData) 
+			{
+                if (sessionData['data'].sessionid != null)
+				{	
+					// save sessionId
+					sessionId = sessionData['data'].sessionid;
+
+					$( ".startText" ).fadeOut("slow");	
+					$( "#selectBox" ).fadeOut("slow");	
+					$( ".pointer" ).fadeOut("slow");
+					$( "#alertHolder" ).fadeOut("slow");
+					$( ".play" ).fadeOut( "slow", function() 
+					{
+					  	$( "#number3" ).fadeIn( "slow", function() 
+					  	{
+					  		$( "#number3" ).fadeOut( "slow", function() 
+					  		{
+					  			$( "#number2" ).fadeIn( "slow", function() 
+							  	{
+							  		$( "#number2" ).fadeOut( "slow", function() 
+							  		{
+							  			$( "#number1" ).fadeIn( "slow", function() 
+									  	{
+									  		$( "#number1" ).fadeOut( "slow", function() 
+									  		{
+											    // Animation complete.
+											    $( "#StartScreen" ).fadeOut( "slow" , function(){
+											    	$( "#WordScreen" ).fadeIn("slow");
+											    	$( "#totalWords" ).fadeIn( "slow" );
+
+											    	var audioElement = document.createElement('audio');
+													audioElement.setAttribute('src', 'https://spelladmin.easypeasycoding.com/upload/' + words[pos]['id'] + '/' + words[pos]['audio']);
+
+													audioElement.play();
+													    
+													audioElement.addEventListener('ended', function() {
+													    $('.soundImg').css("display", "none");  
+													    $( ".Keyboard" ).fadeIn( "slow" );
+													    $( ".Word_Holder" ).fadeIn( "slow" );
+
+													    keyboardEnabled = true;
+
+													}, false);
+											    });
+											    
+									  		});	
+							  			});
+							  		});	
+					  			});
+					  		});	
+					  	});	
+					});
+
+				}
+            }
+
+            function startSession()
+            {
+                $.ajax({
+				  	url: "/api/startSession",
+				  	method: "POST",
+				  	data: { listId: 1 },
+				  	dataType: "JSON",
+				  	success: gotSession
+				});
+            }
+
+			$(window).keydown(function(event) 
+			{
+				if (keyboardEnabled == true)
+	            {
+
+
+	            	if (event.which == 13 || event.which == 8) 
+	            	{
+	            		if (event.which == 13)
+	            		{
+	            			event.preventDefault();
+					  		check();
+	            		}
+
+	            		if (event.which == 8)
+	            		{
+	            			event.preventDefault();
+					  		backspace();
+	            		}
+					}
+					else
+					{
+						add(event['originalEvent'].key);
+					}
+	            }
+			});
+
 		</script>
 
 		<!-- Script bootstrap -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-	
 		<script src="./assets/js/bg_script.js"></script>
 	</body>
 </html>
